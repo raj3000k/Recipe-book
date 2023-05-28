@@ -1,0 +1,24 @@
+<mat-sidenav-container class="sidenav-container">
+	<mat-sidenav
+		#drawer class="sidenav bg-gradient--perfect-white" fixedInViewport
+		[attr.role]="(isSmallish$ | async) ? 'dialog' : 'navigation'"
+		[mode]="(isSmallish$ | async) ? 'over' : 'side'"
+		[opened]="(isSmallish$ | async) === false">
+		<app-sidenav class="h-100"></app-sidenav>
+	</mat-sidenav>
+	<mat-sidenav-content class="min-vh-100">
+		<mat-toolbar class="bg-gradient--perfect-white">
+			<div
+				mat-ripple
+				type="button"
+				class="p-3"
+				aria-label="Toggle sidenav"
+				(click)="drawer.toggle()"
+				*ngIf="isSmallish$ | async">
+				<div class="fa-solid fa-bars"></div>
+			</div>
+			<span>Recipe book</span>
+		</mat-toolbar>
+		<div class="p-1"><router-outlet></router-outlet></div>
+	</mat-sidenav-content>
+</mat-sidenav-container>

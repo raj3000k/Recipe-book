@@ -1,0 +1,119 @@
+<h3 mat-dialog-title>Edit shopping list</h3>
+<form mat-dialog-content #form="ngForm" id="ingredient-edit-modal-form" class="overflow-visible" (submit)="onSubmit(form)" ngNativeValidate>
+	<mat-form-field class="w-100" appearance="fill">
+		<mat-label>Name</mat-label>
+		<input
+			matInput
+			#name="ngModel"
+			class="col-lg-8 form-control rounded-pill"
+			name="name"
+			ngModel
+			required
+			type="text">
+		<mat-error *ngIf="name.invalid && name.touched">
+			Name is required.
+		</mat-error>
+	</mat-form-field>
+	<div class="row w-100">
+		<mat-form-field class="col-6" appearance="fill">
+			<mat-label>Quantity</mat-label>
+			<input
+				#quantity="ngModel"
+				matInput
+				class="hide-arrows"
+				min="0"
+				name="quantity"
+				ngModel
+				required
+				type="number"
+				value="1"
+			>
+			<mat-error
+				*ngIf="(quantity.invalid && quantity.touched)">
+				<span *ngIf="quantity.errors?.['required']">
+					Quantity is required.
+				</span>
+				<span *ngIf="quantity.errors?.['min']">
+					Quantity can't be less than 0.
+				</span>
+			</mat-error>
+		</mat-form-field>
+		<mat-form-field class="col-6" appearance="fill">
+			<mat-label>Unit</mat-label>
+			<input
+				#quantityUnit="ngModel"
+				matInput
+				name="quantityUnit"
+				ngModel
+				required
+				type="text"
+			>
+			<mat-error
+				*ngIf="(quantityUnit.invalid&&quantityUnit.touched) && quantityUnit.errors?.['required']">
+				Enter a quantity unit
+			</mat-error>
+		</mat-form-field>
+	</div>
+	<mat-form-field class="w-100" appearance="fill">
+		<mat-label>Cost</mat-label>
+		<span matPrefix>$ &nbsp;</span>
+		<input
+			#cost="ngModel"
+			matInput
+			class="hide-arrows"
+			id="cost"
+			min="0.01"
+			name="cost"
+			ngModel
+			required
+			step="0.01"
+			type="number"
+		>
+		<mat-error *ngIf="(cost.invalid && cost.touched)">
+			<div *ngIf="cost.errors?.['required']">
+				The ingredient's cost is required.
+			</div>
+			<div *ngIf="cost.errors?.['min']">
+				The ingredient's cost can't be less than 1 cent.
+			</div>
+		</mat-error>
+	</mat-form-field>
+</form>
+
+<div mat-dialog-actions class="d-flex justify-content-between">
+	<button
+		mat-raised-button
+		[class.disabled]="!form.valid"
+		class="bg-gradient--light-blue mat-round-img-btn"
+		type="submit"
+		form="ingredient-edit-modal-form"
+	>
+		{{editMode ? "Confirm Edit" : "Add"}}
+	</button>
+	<button
+		mat-raised-button
+		(click)="onClear()"
+		class="bg-gradient-warning-danger mat-round-img-btn"
+		type="button"
+	>
+		Clear
+	</button>
+	<button
+		mat-raised-button
+		(click)="showDeleteConfirmationMessage()"
+		*ngIf="editMode"
+		class="bg-danger rounded-pill mat-round-img-btn"
+		type="button"
+	>
+		Delete
+	</button>
+	<button
+		mat-raised-button
+		class="bg-gradient-danger-light mat-round-img-btn"
+		(click)="close()"
+		type="button"
+	>
+		Exit
+	</button>
+</div>
+
